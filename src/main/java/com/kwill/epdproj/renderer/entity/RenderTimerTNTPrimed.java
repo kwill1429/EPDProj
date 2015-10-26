@@ -19,7 +19,6 @@ public class RenderTimerTNTPrimed extends Render
 {
 
     private RenderBlocks blockRenderer = new RenderBlocks();
-    private static final String __OBFID = "CL_00001030";
 
     public RenderTimerTNTPrimed()
     {

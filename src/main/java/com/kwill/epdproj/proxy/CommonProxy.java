@@ -45,9 +45,7 @@ public class CommonProxy
     }
     public void init(FMLInitializationEvent e)
     {
-        int cTntID = EntityRegistry.findGlobalUniqueEntityId();
-        EntityRegistry.registerGlobalEntityID(EntityTimerTNTPrimed.class, Resources.block_timertnt_name, cTntID);
-        EntityRegistry.registerModEntity(EntityTimerTNTPrimed.class, Resources.block_timertnt_name, cTntID, TimerTNT.instance, 64, 10, true);
+        EntityRegistry.registerModEntity(EntityTimerTNTPrimed.class, Resources.block_timertnt_name, 1, TimerTNT.instance, 64, 10, true);
 
     }
     public void postInit(FMLPostInitializationEvent e)

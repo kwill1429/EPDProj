@@ -90,22 +90,7 @@ public class BlockTimerTNT extends Block
     @Override
     public void onBlockDestroyedByPlayer(World world, int xPos, int yPos, int zPos, int meta)
     {
-        this.spawnPrimedTNT(world, xPos, yPos, zPos, meta, (EntityLivingBase) null);
-    }
-
-    public void spawnPrimedTNT(World world, int xPos, int yPos, int zPos, int metadata, EntityLivingBase entity)
-    {
-        if (!world.isRemote)
-        {
-            if ((metadata & 1) == 1)
-            {
-                EntityTimerTNTPrimed entitytntprimed = new EntityTimerTNTPrimed(world, (double)((float)xPos + 0.5F), (double)((float)yPos + 0.5F), (double)((float)zPos + 0.5F), entity);
-                entitytntprimed.fuse = ((TileEntityTimerTNT)world.getTileEntity(xPos,yPos,zPos)).fuse;
-                world.spawnEntityInWorld(entitytntprimed);
-                System.out.println("Entity Created at: "+entitytntprimed.posX + "," + entitytntprimed.posZ);
-                world.playSoundAtEntity(entitytntprimed, "game.tnt.primed", 1.0F, 1.0F);
-            }
-        }
+        ((TileEntityTimerTNT)world.getTileEntity(xPos,yPos,zPos)).spawnPrimedTNT();
     }
 
     @Override
