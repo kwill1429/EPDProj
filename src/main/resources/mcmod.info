@@ -1,0 +1,16 @@
+[
+{
+  "modid": "timertnt",
+  "name": "Timer TNT",
+  "description": "Timer TNT.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Kwill"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
