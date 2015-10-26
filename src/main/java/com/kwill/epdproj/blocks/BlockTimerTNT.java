@@ -90,7 +90,7 @@ public class BlockTimerTNT extends Block
     @Override
     public void onBlockDestroyedByPlayer(World world, int xPos, int yPos, int zPos, int meta)
     {
-        ((TileEntityTimerTNT)world.getTileEntity(xPos,yPos,zPos)).spawnPrimedTNT();
+        spawnPrimedTNT(world,xPos, yPos, zPos, meta);
     }
 
     public void spawnPrimedTNT(World world, int xPos, int yPos, int zPos, int meta)
