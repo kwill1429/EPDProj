@@ -1,5 +1,6 @@
 package com.kwill.epdproj.dispencer;
 
+import com.kwill.epdproj.entity.EntityTimerTNTPrimed;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
 import net.minecraft.dispenser.IBlockSource;
@@ -25,7 +26,10 @@ public class TimerTNTDispencerBehavior extends BehaviorDefaultDispenseItem
         int i = p_82487_1_.getXInt() + enumfacing.getFrontOffsetX();
         int j = p_82487_1_.getYInt() + enumfacing.getFrontOffsetY();
         int k = p_82487_1_.getZInt() + enumfacing.getFrontOffsetZ();
-        EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(world, (double)((float)i + 0.5F), (double)((float)j + 0.5F), (double)((float)k + 0.5F), (EntityLivingBase)null);
+        EntityTimerTNTPrimed entitytntprimed = new EntityTimerTNTPrimed(world, (double)((float)i + 0.5F), (double)((float)j + 0.5F), (double)((float)k + 0.5F), (EntityLivingBase)null);
+        if (p_82487_2_.stackTagCompound != null)
+            entitytntprimed.fuse = (int)(p_82487_2_.stackTagCompound.getDouble("detTime"));
+
         world.spawnEntityInWorld(entitytntprimed);
         return p_82487_2_;
     }

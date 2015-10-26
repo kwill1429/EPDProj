@@ -2,6 +2,7 @@ package com.kwill.epdproj.tileentity;
 
 import com.kwill.epdproj.entity.EntityTimerTNTPrimed;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;

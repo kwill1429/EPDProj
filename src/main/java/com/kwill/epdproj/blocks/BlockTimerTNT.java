@@ -9,12 +9,16 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Kyle on 10/25/2015.
@@ -59,11 +63,7 @@ public class BlockTimerTNT extends Block
     {
         super.onBlockAdded(world, xPos, yPos, zPos);
         System.out.println(this.getUnlocalizedName());
-        if (world.isBlockIndirectlyGettingPowered(xPos, yPos, zPos))
-        {
-            this.onBlockDestroyedByPlayer(world, xPos, yPos, zPos, 1);
-            world.setBlockToAir(xPos, yPos, zPos);
-        }
+
     }
 
     @Override
@@ -95,11 +95,12 @@ public class BlockTimerTNT extends Block
 
     public void spawnPrimedTNT(World world, int xPos, int yPos, int zPos, int meta)
     {
+        EntityTimerTNTPrimed entitytntprimed;
         if (!world.isRemote)
         {
             if ((meta & 1) == 1)
             {
-                EntityTimerTNTPrimed entitytntprimed = new EntityTimerTNTPrimed(world, (double)((float)xPos + 0.5F), (double)((float)yPos + 0.5F), (double)((float)zPos + 0.5F), null);
+                entitytntprimed = new EntityTimerTNTPrimed(world, (double)((float)xPos + 0.5F), (double)((float)yPos + 0.5F), (double)((float)zPos + 0.5F), null);
                 entitytntprimed.fuse = ((TileEntityTimerTNT)world.getTileEntity(xPos,yPos,zPos)).fuse;
                 world.spawnEntityInWorld(entitytntprimed);
                 System.out.println("Entity Created at: "+entitytntprimed.posX + "," + entitytntprimed.posZ);

@@ -35,7 +35,7 @@ public class CommonProxy
 
     public void preInit(FMLPreInitializationEvent e)
     {
-        registerRenders();
+        //registerRenders();
         GameRegistry.registerBlock(blockTimerTnt, Resources.block_timertnt_name);
         GameRegistry.registerItem(itemTimerTnt, Resources.item_timertnt_name);
 

@@ -79,7 +79,6 @@ public class ItemTimerTNT extends Item
             {
                 if (world.setBlock(xPos, yPos, zPos, CommonProxy.blockTimerTnt))
                 {
-                    world.notifyBlockOfNeighborChange(xPos, yPos + 1, zPos, CommonProxy.blockTimerTnt);
                     TileEntityTimerTNT te = (TileEntityTimerTNT)world.getTileEntity(xPos, yPos, zPos);
                     if (te != null && itemStack.stackTagCompound != null)
                         te.setFuse(itemStack.stackTagCompound.getDouble("detTime"));
@@ -87,6 +86,13 @@ public class ItemTimerTNT extends Item
                     {
                         te.setFuse(4.0D);
                     }
+                    if (world.isBlockIndirectlyGettingPowered(xPos, yPos, zPos))
+                    {
+
+                        world.getBlock(xPos,yPos,zPos).onBlockDestroyedByPlayer(world, xPos, yPos, zPos, 1);
+                        world.setBlockToAir(xPos, yPos, zPos);
+                    }
+                    world.notifyBlockOfNeighborChange(xPos, yPos + 1, zPos, CommonProxy.blockTimerTnt);
                 }
             } else {
                 return false;
