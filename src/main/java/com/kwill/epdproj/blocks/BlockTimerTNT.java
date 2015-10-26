@@ -93,6 +93,21 @@ public class BlockTimerTNT extends Block
         ((TileEntityTimerTNT)world.getTileEntity(xPos,yPos,zPos)).spawnPrimedTNT();
     }
 
+    public void spawnPrimedTNT(World world, int xPos, int yPos, int zPos, int meta)
+    {
+        if (!world.isRemote)
+        {
+            if ((meta & 1) == 1)
+            {
+                EntityTimerTNTPrimed entitytntprimed = new EntityTimerTNTPrimed(world, (double)((float)xPos + 0.5F), (double)((float)yPos + 0.5F), (double)((float)zPos + 0.5F), null);
+                entitytntprimed.fuse = ((TileEntityTimerTNT)world.getTileEntity(xPos,yPos,zPos)).fuse;
+                world.spawnEntityInWorld(entitytntprimed);
+                System.out.println("Entity Created at: "+entitytntprimed.posX + "," + entitytntprimed.posZ);
+                world.playSoundAtEntity(entitytntprimed, "game.tnt.primed", 1.0F, 1.0F);
+            }
+        }
+    }
+
     @Override
     public boolean canDropFromExplosion(Explosion p_149659_1_)
     {

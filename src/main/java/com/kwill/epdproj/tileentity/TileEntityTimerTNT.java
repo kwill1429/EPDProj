@@ -32,20 +32,6 @@ public class TileEntityTimerTNT extends TileEntity
         this.fuse = (int)(detTime * 20);
     }
 
-    public void spawnPrimedTNT()
-    {
-        World world = this.getWorldObj();
-        if (!world.isRemote)
-        {
-            if ((blockMetadata & 1) == 1)
-            {
-                EntityTimerTNTPrimed entitytntprimed = new EntityTimerTNTPrimed(world, (double)((float)this.xCoord + 0.5F), (double)((float)this.yCoord + 0.5F), (double)((float)this.zCoord + 0.5F), null);
-                entitytntprimed.fuse = this.fuse;
-                world.spawnEntityInWorld(entitytntprimed);
-                System.out.println("Entity Created at: "+entitytntprimed.posX + "," + entitytntprimed.posZ);
-                world.playSoundAtEntity(entitytntprimed, "game.tnt.primed", 1.0F, 1.0F);
-            }
-        }
-    }
+
 }
 
