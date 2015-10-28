@@ -17,7 +17,7 @@ public class TimerTNT
     @Mod.Instance(Resources.modid)
     public static TimerTNT instance;
 
-    @SidedProxy(clientSide = "com.kwill.epdproj.proxy.CombinedClientProxy", serverSide = "com.kwill.epdproj.proxy.CommonProxy")
+    @SidedProxy(clientSide = "com.kwill.epdproj.proxy.CombinedClientProxy", serverSide = "com.kwill.epdproj.proxy.ServerProxy")
     public static CommonProxy proxy;
 
     @EventHandler
@@ -29,7 +29,7 @@ public class TimerTNT
     @EventHandler
     public void init(FMLInitializationEvent e)
     {
-        proxy.init(e);
+        TimerTNT.proxy.init(e);
     }
 
     @EventHandler

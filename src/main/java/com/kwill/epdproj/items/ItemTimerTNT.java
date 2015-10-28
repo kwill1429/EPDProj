@@ -9,6 +9,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
@@ -21,15 +22,15 @@ import java.util.List;
 /**
  * Created by Kyle on 10/25/2015.
  */
-public class ItemTimerTNT extends Item
+public class ItemTimerTNT extends ItemBlock
 {
 
-    public ItemTimerTNT(String name)
+    public ItemTimerTNT(Block block)
     {
-        super();
+        super(block);
         this.setCreativeTab(CreativeTabs.tabRedstone);
-        this.setUnlocalizedName(name);
-        this.setTextureName(Resources.modid+":"+name);
+        this.setUnlocalizedName(Resources.item_timertnt_name);
+        this.setTextureName(Resources.modid+":"+Resources.item_timertnt_name);
     }
 
     @Override
@@ -51,55 +52,98 @@ public class ItemTimerTNT extends Item
     }
 
     @Override
-    public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, int xPos, int yPos, int zPos, int side, float xClick, float yClick, float zClick) {
-        if (!world.isRemote)
-        {
-            switch (side)
-            {
-                case 0: //bottom
-                    yPos--;
-                    break;
-                case 1: //top
-                    yPos++;
-                    break;
-                case 2: //north
-                    zPos--;
-                    break;
-                case 3: //south
-                    zPos++;
-                    break;
-                case 4: //west
-                    xPos--;
-                    break;
-                case 5: //east
-                    xPos++;
-                    break;
-            }
-            if (player.canPlayerEdit(xPos, yPos, zPos,side, itemStack))
-            {
-                if (world.setBlock(xPos, yPos, zPos, CommonProxy.blockTimerTnt))
-                {
-                    TileEntityTimerTNT te = (TileEntityTimerTNT)world.getTileEntity(xPos, yPos, zPos);
-                    if (te != null && itemStack.stackTagCompound != null)
-                        te.setFuse(itemStack.stackTagCompound.getDouble("detTime"));
-                    else if (te != null)
-                    {
-                        te.setFuse(4.0D);
-                    }
-                    if (world.isBlockIndirectlyGettingPowered(xPos, yPos, zPos))
-                    {
+    public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer, World world, int xPos, int yPos, int zPos, int side, float xCoord, float yCoord, float zCoord) {
+        boolean didPlace = super.onItemUse(itemStack, entityPlayer, world, xPos, yPos, zPos, side, xCoord, yCoord, zCoord);
 
-                        world.getBlock(xPos,yPos,zPos).onBlockDestroyedByPlayer(world, xPos, yPos, zPos, 1);
-                        world.setBlockToAir(xPos, yPos, zPos);
-                    }
-                    world.notifyBlockOfNeighborChange(xPos, yPos + 1, zPos, CommonProxy.blockTimerTnt);
+        switch (side)
+        {
+            case 0:
+                yPos--;
+                break;
+            case 1:
+                yPos++;
+                break;
+            case 2:
+                zPos--;
+                break;
+            case 3:
+                zPos++;
+                break;
+            case 4:
+                xPos--;
+                break;
+            case 5:
+                xPos++;
+                break;
+        }
+
+        if (didPlace)
+        {
+            TileEntityTimerTNT te = (TileEntityTimerTNT)world.getTileEntity(xPos, yPos, zPos);
+            if (te != null)
+            {
+                if (itemStack.stackTagCompound != null) {
+                   te.setFuse(itemStack.stackTagCompound.getDouble("detTime"));
                 }
-            } else {
+            } else
+            {
                 return false;
             }
         }
-        return true;
+        return didPlace;
     }
+
+    //
+//    @Override
+//    public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, int xPos, int yPos, int zPos, int side, float xClick, float yClick, float zClick) {
+//        if (!world.isRemote)
+//        {
+//            switch (side)
+//            {
+//                case 0: //bottom
+//                    yPos--;
+//                    break;
+//                case 1: //top
+//                    yPos++;
+//                    break;
+//                case 2: //north
+//                    zPos--;
+//                    break;
+//                case 3: //south
+//                    zPos++;
+//                    break;
+//                case 4: //west
+//                    xPos--;
+//                    break;
+//                case 5: //east
+//                    xPos++;
+//                    break;
+//            }
+//            if (player.canPlayerEdit(xPos, yPos, zPos,side, itemStack))
+//            {
+//                if (world.setBlock(xPos, yPos, zPos, CommonProxy.blockTimerTnt))
+//                {
+//                    TileEntityTimerTNT te = (TileEntityTimerTNT)world.getTileEntity(xPos, yPos, zPos);
+//                    if (te != null && itemStack.stackTagCompound != null)
+//                        te.setFuse(itemStack.stackTagCompound.getDouble("detTime"));
+//                    else if (te != null)
+//                    {
+//                        te.setFuse(4.0D);
+//                    }
+//                    if (world.isBlockIndirectlyGettingPowered(xPos, yPos, zPos))
+//                    {
+//
+//                        world.getBlock(xPos,yPos,zPos).onBlockDestroyedByPlayer(world, xPos, yPos, zPos, 1);
+//                        world.setBlockToAir(xPos, yPos, zPos);
+//                    }
+//                    world.notifyBlockOfNeighborChange(xPos, yPos + 1, zPos, CommonProxy.blockTimerTnt);
+//                }
+//            } else {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
     @Override
     public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack item) {

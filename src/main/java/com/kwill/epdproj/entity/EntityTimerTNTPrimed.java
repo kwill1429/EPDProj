@@ -1,5 +1,6 @@
 package com.kwill.epdproj.entity;
 
+import net.minecraft.entity.DataWatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -11,7 +12,8 @@ import net.minecraft.world.World;
 public class EntityTimerTNTPrimed extends Entity
 {
 
-    public int fuse;
+    private int fuse;
+    private EntityLivingBase placedBy;
 
     public EntityTimerTNTPrimed(World world)
     {
@@ -23,16 +25,20 @@ public class EntityTimerTNTPrimed extends Entity
 
     public EntityTimerTNTPrimed(World world, double xPos, double yPos, double zPos, EntityLivingBase explosivePlacedBy) {
         this(world);
-        this.setPosition(xPos, yPos, zPos);
+        this.setLocationAndAngles(xPos, yPos, zPos, 0, 0);
         this.motionY = 0.20000000298023224D;
         this.fuse = 80;
         this.prevPosX = xPos;
         this.prevPosY = yPos;
         this.prevPosZ = zPos;
+        this.placedBy = explosivePlacedBy;
     }
 
     @Override
-    protected void entityInit() {}
+    protected void entityInit() {
+        DataWatcher dw = this.getDataWatcher();
+        dw.addObject(2, (int)fuse);
+    }
 
     @Override
     public boolean canBeCollidedWith()
@@ -42,6 +48,8 @@ public class EntityTimerTNTPrimed extends Entity
 
     @Override
     public void onUpdate() {
+        DataWatcher dw = this.getDataWatcher();
+        this.fuse = dw.getWatchableObjectInt(2);
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
@@ -52,8 +60,9 @@ public class EntityTimerTNTPrimed extends Entity
         {
             this.motionY *= -0.5D;
         }
+        setFuse(fuse - 1);
 
-        if (this.fuse-- <= 0)
+        if (this.fuse <= 0)
         {
             this.setDead();
 
@@ -76,11 +85,23 @@ public class EntityTimerTNTPrimed extends Entity
 
     @Override
     protected void readEntityFromNBT(NBTTagCompound tag) {
-        this.fuse = tag.getByte("fuse");
+        if (tag.getInteger("fuse") >= 0)
+            this.setFuse(tag.getInteger("fuse"));
     }
 
     @Override
-    protected void writeEntityToNBT(NBTTagCompound tag) {
-        tag.setByte("fuse", (byte)this.fuse);
+    protected void writeEntityToNBT(NBTTagCompound tag) { tag.setInteger("fuse", this.fuse);
+    }
+
+    public void setFuse(int fuse)
+    {
+        this.fuse = fuse;
+        DataWatcher dw = this.getDataWatcher();
+        dw.updateObject(2, this.fuse);
+    }
+
+    public int getFuse()
+    {
+        return this.fuse;
     }
 }

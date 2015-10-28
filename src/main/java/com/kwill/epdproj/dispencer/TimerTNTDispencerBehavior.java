@@ -28,7 +28,7 @@ public class TimerTNTDispencerBehavior extends BehaviorDefaultDispenseItem
         int k = p_82487_1_.getZInt() + enumfacing.getFrontOffsetZ();
         EntityTimerTNTPrimed entitytntprimed = new EntityTimerTNTPrimed(world, (double)((float)i + 0.5F), (double)((float)j + 0.5F), (double)((float)k + 0.5F), (EntityLivingBase)null);
         if (p_82487_2_.stackTagCompound != null)
-            entitytntprimed.fuse = (int)(p_82487_2_.stackTagCompound.getDouble("detTime"));
+            entitytntprimed.setFuse((int)(p_82487_2_.stackTagCompound.getDouble("detTime")));
 
         world.spawnEntityInWorld(entitytntprimed);
         return p_82487_2_;

@@ -12,49 +12,34 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
-import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
-import net.minecraft.dispenser.IBlockSource;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.world.World;
 
 /**
  * Created by Kyle on 10/25/2015.
  */
 public class CommonProxy
 {
-    public static Block blockTimerTnt = new BlockTimerTNT(Resources.block_timertnt_name);
+    public static Block blockTimerTnt;
 
-    public static Item itemTimerTnt = new ItemTimerTNT(Resources.item_timertnt_name);
+    public static Item itemTimerTnt;
 
     public void preInit(FMLPreInitializationEvent e)
     {
-        //registerRenders();
-        GameRegistry.registerBlock(blockTimerTnt, Resources.block_timertnt_name);
-        GameRegistry.registerItem(itemTimerTnt, Resources.item_timertnt_name);
+        blockTimerTnt = new BlockTimerTNT(Resources.block_timertnt_name);
+        GameRegistry.registerBlock(blockTimerTnt, ItemTimerTNT.class, Resources.block_timertnt_name);
 
         GameRegistry.registerTileEntity(TileEntityTimerTNT.class, Resources.tileentity_timertnt_name);
 
-
+        EntityRegistry.registerModEntity(EntityTimerTNTPrimed.class, Resources.block_timertnt_name, 1, TimerTNT.instance, 64, 10, true);
     }
     public void init(FMLInitializationEvent e)
     {
-        EntityRegistry.registerModEntity(EntityTimerTNTPrimed.class, Resources.block_timertnt_name, 1, TimerTNT.instance, 64, 10, true);
 
     }
     public void postInit(FMLPostInitializationEvent e)
     {
         BlockDispenser.dispenseBehaviorRegistry.putObject(itemTimerTnt, new TimerTNTDispencerBehavior());
-    }
-
-    public void registerRenders()
-    {
-
     }
 }

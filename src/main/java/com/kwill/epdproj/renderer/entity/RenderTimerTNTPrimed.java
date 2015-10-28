@@ -38,9 +38,9 @@ public class RenderTimerTNTPrimed extends Render
         GL11.glTranslatef((float)p_76986_2_, (float)p_76986_4_, (float)p_76986_6_);
         float f2;
 
-        if ((float)p_76986_1_.fuse - p_76986_9_ + 1.0F < 10.0F)
+        if ((float)p_76986_1_.getFuse() - p_76986_9_ + 1.0F < 10.0F)
         {
-            f2 = 1.0F - ((float)p_76986_1_.fuse - p_76986_9_ + 1.0F) / 10.0F;
+            f2 = 1.0F - ((float)p_76986_1_.getFuse() - p_76986_9_ + 1.0F) / 10.0F;
 
             if (f2 < 0.0F)
             {
@@ -58,11 +58,11 @@ public class RenderTimerTNTPrimed extends Render
             GL11.glScalef(f3, f3, f3);
         }
 
-        f2 = (1.0F - ((float)p_76986_1_.fuse - p_76986_9_ + 1.0F) / 100.0F) * 0.8F;
+        f2 = (1.0F - ((float)p_76986_1_.getFuse() - p_76986_9_ + 1.0F) / 100.0F) * 0.8F;
         this.bindEntityTexture(p_76986_1_);
         this.blockRenderer.renderBlockAsItem(Blocks.tnt, 0, p_76986_1_.getBrightness(p_76986_9_));
 
-        if (p_76986_1_.fuse / 5 % 2 == 0)
+        if (p_76986_1_.getFuse() / 5 % 2 == 0)
         {
             GL11.glDisable(GL11.GL_TEXTURE_2D);
             GL11.glDisable(GL11.GL_LIGHTING);

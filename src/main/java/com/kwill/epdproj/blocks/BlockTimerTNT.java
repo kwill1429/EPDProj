@@ -31,6 +31,7 @@ public class BlockTimerTNT extends Block
     public BlockTimerTNT(String name) {
         super(Material.tnt);
         this.setBlockName(name);
+        this.setCreativeTab(CreativeTabs.tabRedstone);
         this.setStepSound(soundTypeGrass);
     }
 
@@ -59,14 +60,6 @@ public class BlockTimerTNT extends Block
     }
 
     @Override
-    public void onBlockAdded(World world, int xPos, int yPos, int zPos)
-    {
-        super.onBlockAdded(world, xPos, yPos, zPos);
-        System.out.println(this.getUnlocalizedName());
-
-    }
-
-    @Override
     public void onNeighborBlockChange(World world, int xPos, int yPos, int zPos, Block block)
     {
         if (world.isBlockIndirectlyGettingPowered(xPos, yPos, zPos))
@@ -82,7 +75,6 @@ public class BlockTimerTNT extends Block
         if (!world.isRemote)
         {
             EntityTimerTNTPrimed entitytntprimed = new EntityTimerTNTPrimed(world, (double)((float)xPos + 0.5F), (double)((float)yPos + 0.5F), (double)((float)zPos + 0.5F), explosion.getExplosivePlacedBy());
-            entitytntprimed.fuse = world.rand.nextInt(entitytntprimed.fuse / 4) + entitytntprimed.fuse / 8;
             world.spawnEntityInWorld(entitytntprimed);
         }
     }
@@ -101,7 +93,7 @@ public class BlockTimerTNT extends Block
             if ((meta & 1) == 1)
             {
                 entitytntprimed = new EntityTimerTNTPrimed(world, (double)((float)xPos + 0.5F), (double)((float)yPos + 0.5F), (double)((float)zPos + 0.5F), null);
-                entitytntprimed.fuse = ((TileEntityTimerTNT)world.getTileEntity(xPos,yPos,zPos)).fuse;
+                entitytntprimed.setFuse(((TileEntityTimerTNT)world.getTileEntity(xPos,yPos,zPos)).fuse);
                 world.spawnEntityInWorld(entitytntprimed);
                 System.out.println("Entity Created at: "+entitytntprimed.posX + "," + entitytntprimed.posZ);
                 world.playSoundAtEntity(entitytntprimed, "game.tnt.primed", 1.0F, 1.0F);
